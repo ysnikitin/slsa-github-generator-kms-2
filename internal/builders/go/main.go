@@ -75,9 +75,9 @@ func runBuild(dry bool, configFile, evalEnvs string) error {
 	return nil
 }
 
-func runProvenanceGeneration(subject, digest, commands, envs, workingDir, rekor string) error {
+func runProvenanceGeneration(subject, digest, commands, envs, workingDir, rekor, keyRef string) error {
 	r := sigstore.NewRekor(rekor)
-	s := sigstore.NewDefaultFulcio()
+	s := sigstore.NewWithKeyFulcio(keyRef)
 	attBytes, err := pkg.GenerateProvenance(subject, digest,
 		commands, envs, workingDir, s, r, nil)
 	if err != nil {
@@ -116,6 +116,7 @@ func main() {
 	provenanceName := provenanceCmd.String("binary-name", "", "untrusted binary name of the artifact built")
 	provenanceDigest := provenanceCmd.String("digest", "", "sha256 digest of the untrusted binary")
 	provenanceCommand := provenanceCmd.String("command", "", "command used to compile the binary")
+	provenanceKeyRef := provenanceCmd.String("keyReference", "", "kms key references")
 	provenanceEnv := provenanceCmd.String("env", "", "env variables used to compile the binary")
 	provenanceWorkingDir := provenanceCmd.String("workingDir", "", "working directory used to issue compilation commands")
 	provenanceRekor := provenanceCmd.String("rekor", sigstore.DefaultRekorAddr, "rekor server to use for provenance")
@@ -145,7 +146,7 @@ func main() {
 		}
 
 		err := runProvenanceGeneration(*provenanceName, *provenanceDigest,
-			*provenanceCommand, *provenanceEnv, *provenanceWorkingDir, *provenanceRekor)
+			*provenanceCommand, *provenanceEnv, *provenanceWorkingDir, *provenanceRekor, *provenanceKeyRef)
 		check(err)
 
 	default:

@@ -355,6 +355,7 @@ jobs:
             --digest "$UNTRUSTED_BINARY_HASH" \
             --command "$UNTRUSTED_COMMAND" \
             --env "$UNTRUSTED_ENV" \
+            --keyReference "gcpkms://projects/etsy-builder-kms-prod/locations/global/keyRings/testkeys-services-keyring/cryptoKeys/test_a-sigining-key"
             --workingDir "$UNTRUSTED_WORKING_DIR"
 
       - name: Upload the signed provenance
