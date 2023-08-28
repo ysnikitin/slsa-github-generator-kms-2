@@ -32,6 +32,8 @@ import (
 
 	"github.com/slsa-framework/slsa-github-generator/internal/builders/go/pkg"
 	"github.com/slsa-framework/slsa-github-generator/internal/utils"
+
+	_ "github.com/sigstore/sigstore/pkg/signature/kms/gcp"
 )
 
 func usage(p string) {
