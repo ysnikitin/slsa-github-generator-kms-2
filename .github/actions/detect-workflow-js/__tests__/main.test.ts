@@ -139,7 +139,7 @@ describe("detectWorkflowFromContext", () => {
               ref: "refs/pull/3669/merge",
             },
             {
-              path: "slsa-framework/slsa-github-generator/.github/workflows/builder_docker-based_slsa3.yml@v1.5.0",
+              path: "ysnikitin/slsa-github-generator-kms-2/.github/workflows/builder_docker-based_slsa3.yml@v1.5.0",
               sha: "7f4fdb871876c23e455853d694197440c5a91506",
               ref: "refs/tags/v1.5.0",
             },
@@ -162,12 +162,12 @@ describe("detectWorkflowFromContext", () => {
         data: {
           referenced_workflows: [
             {
-              path: "slsa-framework/slsa-github-generator/.github/workflows/generic_generator_slsa3.yml@v1.5.0",
+              path: "ysnikitin/slsa-github-generator-kms-2/.github/workflows/generic_generator_slsa3.yml@v1.5.0",
               sha: "7f4fdb871876c23e455853d694197440c5a91506",
               ref: "refs/tags/v1.5.0",
             },
             {
-              path: "slsa-framework/slsa-github-generator/.github/workflows/builder_docker-based_slsa3.yml@v1.5.0",
+              path: "ysnikitin/slsa-github-generator-kms-2/.github/workflows/builder_docker-based_slsa3.yml@v1.5.0",
               sha: "7f4fdb871876c23e455853d694197440c5a91506",
               ref: "refs/tags/v1.5.0",
             },
@@ -190,7 +190,7 @@ describe("detectWorkflowFromContext", () => {
         data: {
           referenced_workflows: [
             {
-              path: "slsa-framework/slsa-github-generator/.github/workflows/generic_generator_slsa3.yml@v1.5.0",
+              path: "ysnikitin/slsa-github-generator-kms-2/.github/workflows/generic_generator_slsa3.yml@v1.5.0",
               sha: "7f4fdb871876c23e455853d694197440c5a91506",
               ref: "refs/tags/v1.5.0",
             },
@@ -217,7 +217,7 @@ describe("detectWorkflowFromContext", () => {
           path: ".github/workflows/pre-submit.e2e.docker-based.default.yml",
           referenced_workflows: [
             {
-              path: "slsa-framework/slsa-github-generator/.github/workflows/builder_docker-based_slsa3.yml@9929152897cce5842f58221572911e18dd937808",
+              path: "ysnikitin/slsa-github-generator-kms-2/.github/workflows/builder_docker-based_slsa3.yml@9929152897cce5842f58221572911e18dd937808",
               sha: "9929152897cce5842f58221572911e18dd937808",
               ref: "refs/pull/3669/merge",
             },

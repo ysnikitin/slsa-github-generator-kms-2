@@ -202,7 +202,7 @@ jobs:
       contents: write # To upload assets to release.
       actions: read # To read the workflow path.
     needs: args
-    uses: slsa-framework/slsa-github-generator/.github/workflows/builder_container-based_slsa3.yml@v1.9.0
+    uses: ysnikitin/slsa-github-generator-kms-2/.github/workflows/builder_container-based_slsa3.yml@v1.9.0
     with:
       builder-image: "bash"
       builder-digest: "sha256:9e2ba52487d945504d250de186cb4fe2e3ba023ed2921dd6ac8b97ed43e76af9"
@@ -311,7 +311,7 @@ as an [in-toto](https://in-toto.io/) statement with a SLSA predicate.
     },
     "runDetails": {
       "builder": {
-        "id": "https://github.com/slsa-framework/slsa-github-generator/.github/workflows/builder_container-based_slsa3.yml@refs/tags/v1.5.0"
+        "id": "https://github.com/ysnikitin/slsa-github-generator-kms-2/.github/workflows/builder_container-based_slsa3.yml@refs/tags/v1.5.0"
       },
       "metadata": {
         "invocationId": "https://github.com/slsa-framework/example-package/actions/runs/4310284899/attempts/1"

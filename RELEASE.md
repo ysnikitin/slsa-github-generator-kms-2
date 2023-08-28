@@ -588,7 +588,7 @@ Then, for each of the GHA builders, you will need to:
    For example:
 
    ```yaml
-   uses: slsa-framework/slsa-github-generator/.github/workflows/builder_go_slsa3.yml@<BUILDER_TAG>
+   uses: ysnikitin/slsa-github-generator-kms-2/.github/workflows/builder_go_slsa3.yml@<BUILDER_TAG>
    ```
 
    Next run the

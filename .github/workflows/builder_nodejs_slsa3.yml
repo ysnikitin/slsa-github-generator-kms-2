@@ -104,6 +104,6 @@ jobs:
       id-token: write # For signing.
       contents: read # For repo checkout of private repos.
       actions: read # For getting workflow run on private repos.
-    uses: slsa-framework/slsa-github-generator/.github/workflows/delegator_lowperms-generic_slsa3.yml@v1.9.0
+    uses: ysnikitin/slsa-github-generator-kms-2/.github/workflows/delegator_lowperms-generic_slsa3.yml@v1.9.0
     with:
       slsa-token: ${{ needs.slsa-setup.outputs.slsa-token }}

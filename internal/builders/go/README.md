@@ -173,7 +173,7 @@ build:
       arch:
         - amd64
         - arm64
-  uses: slsa-framework/slsa-github-generator/.github/workflows/builder_go_slsa3.yml@v1.9.0
+  uses: ysnikitin/slsa-github-generator-kms-2/.github/workflows/builder_go_slsa3.yml@v1.9.0
   with:
     go-version: 1.19
     config-file: .slsa-goreleaser/${{matrix.os}}-${{matrix.arch}}.yml
@@ -182,7 +182,7 @@ build:
 
 ### Workflow Inputs
 
-The builder workflow [slsa-framework/slsa-github-generator/.github/workflows/builder_go_slsa3.yml](https://github.com/slsa-framework/slsa-github-generator/blob/main/.github/workflows/builder_go_slsa3.yml) accepts the following inputs:
+The builder workflow [ysnikitin/slsa-github-generator-kms-2/.github/workflows/builder_go_slsa3.yml](https://github.com/slsa-framework/slsa-github-generator/blob/main/.github/workflows/builder_go_slsa3.yml) accepts the following inputs:
 
 | Name                 | Required | Default                                 | Description                                                                                                                                                                                                                                               |
 | -------------------- | -------- | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -198,7 +198,7 @@ The builder workflow [slsa-framework/slsa-github-generator/.github/workflows/bui
 
 ### Workflow Outputs
 
-The builder workflow [slsa-framework/slsa-github-generator/.github/workflows/builder_go_slsa3.yml](https://github.com/slsa-framework/slsa-github-generator/blob/main/.github/workflows/builder_go_slsa3.yml) provides the following outputs:
+The builder workflow [ysnikitin/slsa-github-generator-kms-2/.github/workflows/builder_go_slsa3.yml](https://github.com/slsa-framework/slsa-github-generator/blob/main/.github/workflows/builder_go_slsa3.yml) provides the following outputs:
 
 | Name                 | Description                                                                           |
 | -------------------- | ------------------------------------------------------------------------------------- |
@@ -250,7 +250,7 @@ jobs:
       contents: write # To upload assets to release.
       actions: read # To read the workflow path.
     needs: args
-    uses: slsa-framework/slsa-github-generator/.github/workflows/builder_go_slsa3.yml@v1.9.0
+    uses: ysnikitin/slsa-github-generator-kms-2/.github/workflows/builder_go_slsa3.yml@v1.9.0
     with:
       go-version: 1.17
       # Optional: only needed if using ldflags.
@@ -275,7 +275,7 @@ An example of the provenance generated from this repo is below:
   ],
   "predicate": {
     "builder": {
-      "id": "https://github.com/slsa-framework/slsa-github-generator/.github/workflows/builder_go_slsa3.yml@v1.4.0"
+      "id": "https://github.com/ysnikitin/slsa-github-generator-kms-2/.github/workflows/builder_go_slsa3.yml@v1.4.0"
     },
     "buildType": "https://github.com/slsa-framework/slsa-github-generator/go@v1",
     "invocation": {
@@ -419,5 +419,5 @@ the latest release. Make sure you continue to reference the workflow using a
 release tag in order to allow verification by `slsa-verifier`.
 
 ```yaml
-uses: slsa-framework/slsa-github-generator/.github/workflows/builder_go_slsa3.yml@v1.9.0
+uses: ysnikitin/slsa-github-generator-kms-2/.github/workflows/builder_go_slsa3.yml@v1.9.0
 ```

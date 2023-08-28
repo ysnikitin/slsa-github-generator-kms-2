@@ -13,7 +13,7 @@ fields of the SLSA provenance predicate attested to are below.
 
 ```json
 "builder": {
-  "id": "https://github.com/slsa-framework/slsa-github-generator/.github/workflows/builder_go_slsa3.yml@refs/tags/v0.0.1"
+  "id": "https://github.com/ysnikitin/slsa-github-generator-kms-2/.github/workflows/builder_go_slsa3.yml@refs/tags/v0.0.1"
 }
 ```
 

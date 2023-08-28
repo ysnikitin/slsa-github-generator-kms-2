@@ -15,7 +15,7 @@ jobs:
       contents: read
       actions: read
     if: startsWith(github.ref, 'refs/tags/')
-    uses: slsa-framework/slsa-github-generator/.github/workflows/builder_nodejs_slsa3.yml@v1.9.0
+    uses: ysnikitin/slsa-github-generator-kms-2/.github/workflows/builder_nodejs_slsa3.yml@v1.9.0
     with:
       run-scripts: "ci, build"
 

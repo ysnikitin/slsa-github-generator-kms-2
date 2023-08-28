@@ -16,6 +16,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 
 	// TODO: Allow use of other OIDC providers?
 	// Enable the github OIDC auth provider.
@@ -26,6 +27,8 @@ import (
 )
 
 func rootCmd() *cobra.Command {
+	var keyReference string
+
 	c := &cobra.Command{
 		Use:   "slsa-generator-generic",
 		Short: "Generate SLSA provenance for Github Actions",
@@ -36,10 +39,17 @@ For more information on SLSA, visit https://slsa.dev`,
 		},
 	}
 	c.AddCommand(versionCmd())
-	c.AddCommand(attestCmd(nil, checkExit, sigstore.NewDefaultFulcio(), sigstore.NewDefaultRekor()))
+	c.AddCommand(attestCmd(nil, checkExit, sigstore.NewWithKeyFulcio(keyReference), sigstore.NewDefaultRekor()))
+
+	c.Flags().StringVarP(
+		&keyReference, "key-reference", "k", "",
+		"Path to the private key file, KMS URI or Kubernetes Secret",
+	)
+
 	return c
 }
 
 func main() {
 	checkExit(rootCmd().Execute())
+	fmt.Printf("hi!")
 }

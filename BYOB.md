@@ -88,7 +88,7 @@ The [setup-generic](https://github.com/slsa-framework/slsa-github-generator/blob
 The SLSA Reuseable Workflow (SRW) acts as the build's orchestrator. It calls the TCA, generates provenance, and returns the provenance to its TRW caller. A TRW would typically call the SRW as follows:
 
 ```yaml
-- uses: slsa-framework/slsa-github-generator/.github/workflow/delegator_generic_slsa3.yml@v1.9.0
+- uses: ysnikitin/slsa-github-generator-kms-2/.github/workflow/delegator_generic_slsa3.yml@v1.9.0
   with:
     slsa-token: ${{ needs.slsa-setup.outputs.slsa-token }}
 ```
@@ -190,7 +190,7 @@ slsa-run:
     contents: write # For asset uploads.
     packages: write # For package uploads.
     actions: read # For the entrypoint.
-  uses: slsa-framework/slsa-github-generator/.github/workflows/delegator_generic_slsa3.yml@v1.9.0
+  uses: ysnikitin/slsa-github-generator-kms-2/.github/workflows/delegator_generic_slsa3.yml@v1.9.0
   with:
     slsa-token: ${{ needs.slsa-setup.outputs.slsa-token }}
   secrets:

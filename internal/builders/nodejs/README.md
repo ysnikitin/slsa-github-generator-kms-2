@@ -121,7 +121,7 @@ jobs:
       contents: read # For repo checkout.
       actions: read # For getting workflow run info.
     if: startsWith(github.ref, 'refs/tags/')
-    uses: slsa-framework/slsa-github-generator/.github/workflows/builder_nodejs_slsa3.yml@v1.9.0
+    uses: ysnikitin/slsa-github-generator-kms-2/.github/workflows/builder_nodejs_slsa3.yml@v1.9.0
     with:
       run-scripts: "ci, test, build"
 ```
@@ -323,7 +323,7 @@ The project generates SLSA v0.2 provenance predicate with the following values.
 
 | Name                         | Value                                                                                                                  | Description                                                                                                                                                                                                            |
 | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `builder.id`                 | `https://github.com/slsa-framework/slsa-github-generator/.github/workflows/builder_nodejs_slsa3.yml@refs/tags/v1.5.0"` | Identifies the Node.js builder                                                                                                                                                                                         |
+| `builder.id`                 | `https://github.com/ysnikitin/slsa-github-generator-kms-2/.github/workflows/builder_nodejs_slsa3.yml@refs/tags/v1.5.0"` | Identifies the Node.js builder                                                                                                                                                                                         |
 | `buildType`                  | `"https://github.com/slsa-framework/slsa-github-generator/delegator-generic@v0"`                                       | Identifies a the GitHub Actions build.                                                                                                                                                                                 |
 | `metadata.buildInvocationID` | `"[run_id]-[run_attempt]"`                                                                                             | The GitHub Actions [`run_id`](https://docs.github.com/en/actions/learn-github-actions/contexts#github-context) does not update when a workflow is re-run. Run attempt is added to make the build invocation ID unique. |
 
@@ -345,7 +345,7 @@ The following is an example of the generated provenance.
   "predicateType": "https://slsa.dev/provenance/v0.2",
   "predicate": {
     "builder": {
-      "id": "https://github.com/slsa-framework/slsa-github-generator/.github/workflows/builder_nodejs_slsa3.yml@refs/tags/v1.5.0"
+      "id": "https://github.com/ysnikitin/slsa-github-generator-kms-2/.github/workflows/builder_nodejs_slsa3.yml@refs/tags/v1.5.0"
     },
     "buildType": "https://github.com/slsa-framework/slsa-github-generator/delegator-generic@v0",
     "invocation": {

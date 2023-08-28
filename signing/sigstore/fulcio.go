@@ -19,11 +19,11 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/sigstore/cosign/v2/pkg/providers"
 
 	"github.com/sigstore/cosign/v2/cmd/cosign/cli/fulcio"
 	"github.com/sigstore/cosign/v2/cmd/cosign/cli/options"
 	"github.com/sigstore/cosign/v2/cmd/cosign/cli/sign"
-	"github.com/sigstore/cosign/v2/pkg/providers"
 	"github.com/sigstore/sigstore/pkg/signature/dsse"
 	"github.com/slsa-framework/slsa-github-generator/signing"
 	"github.com/slsa-framework/slsa-github-generator/signing/envelope"
@@ -42,6 +42,7 @@ type Fulcio struct {
 	fulcioAddr   string
 	oidcIssuer   string
 	oidcClientID string
+	keyRef       string
 }
 
 // attestation is a signed attestation.
@@ -63,15 +64,20 @@ func (a *attestation) Cert() []byte {
 // NewDefaultFulcio creates a new Fulcio instance using the public Fulcio
 // server and public sigstore OIDC issuer.
 func NewDefaultFulcio() *Fulcio {
-	return NewFulcio(defaultFulcioAddr, defaultOIDCIssuer, defaultOIDCClientID)
+	return NewFulcio(defaultFulcioAddr, defaultOIDCIssuer, defaultOIDCClientID, "")
+}
+
+func NewWithKeyFulcio(keyRef string) *Fulcio {
+	return NewFulcio(defaultFulcioAddr, defaultOIDCIssuer, defaultOIDCClientID, keyRef)
 }
 
 // NewFulcio creates a new Fulcio instance.
-func NewFulcio(fulcioAddr, oidcIssuer, oidcClientID string) *Fulcio {
+func NewFulcio(fulcioAddr, oidcIssuer, oidcClientID, keyRef string) *Fulcio {
 	return &Fulcio{
 		fulcioAddr:   fulcioAddr,
 		oidcIssuer:   oidcIssuer,
 		oidcClientID: oidcClientID,
+		keyRef:       keyRef,
 	}
 }
 
@@ -80,6 +86,7 @@ func (s *Fulcio) newSigner(ctx context.Context) (*fulcio.Signer, error) {
 		OIDCIssuer:   s.oidcIssuer,
 		OIDCClientID: s.oidcClientID,
 		FulcioURL:    s.fulcioAddr,
+		KeyRef:       s.keyRef,
 	}
 
 	sv, err := sign.SignerFromKeyOpts(ctx, "", "", ko)

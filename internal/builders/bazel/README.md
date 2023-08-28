@@ -87,7 +87,7 @@ jobs:
       contents: read # For repo checkout.
       actions: read # For getting workflow run info.
     if: startsWith(github.ref, 'refs/tags/')
-    uses: slsa-framework/slsa-github-generator/.github/workflows/builder_bazel_slsa3.yml@v1.9.0
+    uses: ysnikitin/slsa-github-generator-kms-2/.github/workflows/builder_bazel_slsa3.yml@v1.9.0
     with:
       targets: "//src:fib //src:hello"
       flags: "--strip=always"
@@ -113,7 +113,7 @@ jobs:
       contents: read # For repo checkout.
       actions: read # For getting workflow run info.
     if: startsWith(github.ref, 'refs/tags/')
-    uses: slsa-framework/slsa-github-generator/.github/workflows/builder_bazel_slsa3.yml@v1.9.0
+    uses: ysnikitin/slsa-github-generator-kms-2/.github/workflows/builder_bazel_slsa3.yml@v1.9.0
     with:
       targets: "//src:fib //src:hello"
       flags: "--strip=always"
@@ -137,7 +137,7 @@ jobs:
       contents: read # For repo checkout.
       actions: read # For getting workflow run info.
     if: startsWith(github.ref, 'refs/tags/')
-    uses: slsa-framework/slsa-github-generator/.github/workflows/builder_bazel_slsa3.yml@v1.9.0
+    uses: ysnikitin/slsa-github-generator-kms-2/.github/workflows/builder_bazel_slsa3.yml@v1.9.0
     with:
       targets: "//src:fib //src:hello"
       flags: "--strip=always"
@@ -249,7 +249,7 @@ The project generates SLSA v1.0 provenance predicate with the following values.
 
 | Name                         | Value                                                                                                                  | Description                                                                                                                                                                                                            |
 | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `runDetails.builder.id`      | `https://github.com/slsa-framework/slsa-github-generator/.github/workflows/builder_bazel_slsa3.yml@refs/tags/v1.7.0"`  | Identifies the Bazel builder                                                                                                                                                                                           |
+| `runDetails.builder.id`      | `https://github.com/ysnikitin/slsa-github-generator-kms-2/.github/workflows/builder_bazel_slsa3.yml@refs/tags/v1.7.0"`  | Identifies the Bazel builder                                                                                                                                                                                           |
 | `buildDefinition.buildType`  | `"https://github.com/slsa-framework/slsa-github-generator/delegator-generic@v0"`                                       | Identifies a the GitHub Actions build.                                                                                                                                                                                 |
 | `runDetails.metadata.invocationID` | `"[run_id]-[run_attempt]"`                                                                                       | The GitHub Actions [`run_id`](https://docs.github.com/en/actions/learn-github-actions/contexts#github-context) does not update when a workflow is re-run. Run attempt is added to make the build invocation ID unique. |
 | `externalParameters.inputs   | User Inputted Values                                                                                                   | Identifies the inputs to the Bazel Builder that were passed in                                                                                                                                                         |

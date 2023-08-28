@@ -56,7 +56,7 @@ runs:
         echo "path=${temp_dir}" >>"${GITHUB_OUTPUT}"
 
     - name: Download tarball
-      uses: slsa-framework/slsa-github-generator/.github/actions/secure-download-artifact@v1.9.0
+      uses: ysnikitin/slsa-github-generator-kms-2/.github/actions/secure-download-artifact@v1.9.0
       with:
         name: ${{ inputs.package-download-name }}
         path: "${{ steps.temp-dir.outputs.path }}/${{ inputs.package-name }}"

@@ -237,7 +237,7 @@ jobs:
       contents: read
       actions: read
       packages: read
-    uses: slsa-framework/slsa-github-generator/.github/workflows/builder_gradle_slsa3.yml@v1.9.0
+    uses: ysnikitin/slsa-github-generator-kms-2/.github/workflows/builder_gradle_slsa3.yml@v1.9.0
     with:
       rekor-log-public: true
       artifact-list: build/libs/artifact1-0.1.18.jar,build/libs/artifact-0.1.18-javadoc.jar,build/libs/artifact-0.1.18-sources.jar
