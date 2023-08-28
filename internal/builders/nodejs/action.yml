@@ -1,0 +1,110 @@
+# Copyright 2023 SLSA Authors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+name: SLSA3 Builder internal wrapper
+description: SLSA3 Builder internal wrapper
+
+inputs:
+  slsa-workflow-inputs:
+    description: "All the inputs formatted as a JSON map"
+    required: true
+
+  slsa-layout-file:
+    description: "Location to store the layout content"
+    required: true
+
+  # Unused secret inputs.
+  slsa-workflow-secret1: {}
+  slsa-workflow-secret2: {}
+  slsa-workflow-secret3: {}
+  slsa-workflow-secret4: {}
+  slsa-workflow-secret5: {}
+  slsa-workflow-secret6: {}
+  slsa-workflow-secret7: {}
+  slsa-workflow-secret8: {}
+  slsa-workflow-secret9: {}
+  slsa-workflow-secret10: {}
+  slsa-workflow-secret11: {}
+  slsa-workflow-secret12: {}
+  slsa-workflow-secret13: {}
+  slsa-workflow-secret14: {}
+  slsa-workflow-secret15: {}
+
+outputs:
+  attestation-name:
+    description: "The name of the attestation in the generated layout file."
+    value: ${{ steps.generate-layout.outputs.attestation-name }}
+
+  package-download-name:
+    description: "Name of the artifact to download the package tarball."
+    value: "${{ steps.rng.outputs.random }}-package.tgz"
+
+  package-filename:
+    description: "The filename of the package tarball in the package artifact."
+    value: ${{ steps.build.outputs.package-filename }}
+
+  package-sha256:
+    description: "The sha256 digest of the package file."
+    value: ${{ steps.upload.outputs.sha256 }}
+
+runs:
+  using: "composite"
+  steps:
+    # NOTE: the repository is already cloned by the caller, so there's no need to
+    # checkout ourselves.
+
+    - name: Setup Node
+      uses: actions/setup-node@e33196f7422957bea03ed53f6fbb155025ffc7b8 # v3.7.0
+      with:
+        node-version: ${{ fromJson(inputs.slsa-workflow-inputs).node-version }}
+        node-version-file: ${{ fromJson(inputs.slsa-workflow-inputs).node-version-file }}
+        # TODO(#1679): cache dependencies.
+        # cache: npm
+        # NOTE: cache-dependency-path needs to be validated to be a subdirectory of GITHUB_WORKSPACE.
+        # cache-dependency-path:
+
+    - id: build
+      env:
+        UNTRUSTED_DIRECTORY: ${{ fromJson(inputs.slsa-workflow-inputs).directory }}
+        UNTRUSTED_RUN_SCRIPTS: ${{ fromJson(inputs.slsa-workflow-inputs).run-scripts }}
+      shell: bash
+      run: ./../__TOOL_ACTION_DIR__/build.sh
+
+    # rng generates a random number to avoid name collision in artifacts
+    # when multiple workflows run concurrently.
+    - name: Generate random 16-byte value (32-char hex encoded)
+      id: rng
+      uses: slsa-framework/slsa-github-generator/.github/actions/rng@v1.9.0
+
+    - uses: slsa-framework/slsa-github-generator/.github/actions/secure-upload-artifact@v1.9.0
+      id: upload
+      with:
+        name: "${{ steps.rng.outputs.random }}-package.tgz"
+        path: ${{ steps.build.outputs.file-path }}
+
+    # NOTE: Here we create a JSON file that describes the attestations we want
+    #       to create. Each attestation will be created as a separate file,
+    #       each with the subjects specified. This allows complicated release
+    #       pipelines that output many artifacts to organize the attestations
+    #       for those artifacts in a flexible way.
+    - name: Generate layout file
+      id: generate-layout
+      env:
+        SLSA_OUTPUTS_ARTIFACTS_FILE: "${{ inputs.slsa-layout-file }}"
+        PACKAGE_NAME: "${{ steps.build.outputs.package-name }}"
+        PACKAGE_VERSION: "${{ steps.build.outputs.package-version }}"
+        PACKAGE_INTEGRITY: "${{ steps.build.outputs.package-integrity }}"
+        PACKAGE_FILENAME: "${{ steps.build.outputs.package-filename }}"
+      shell: bash
+      run: ./../__TOOL_ACTION_DIR__/generate-layout.sh

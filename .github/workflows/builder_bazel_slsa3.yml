@@ -1,0 +1,105 @@
+# Copyright 2023 SLSA Authors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+permissions: {}
+
+on:
+  workflow_call:
+    inputs:
+      rekor-log-public:
+        description: "Allow publication of your repository name on the public Rekor log"
+        required: false
+        type: boolean
+        default: false
+      targets:
+        description: >
+          Artifacts to build with Bazel. In the form of //src/path:target
+
+          Artifacts are space seperated. An example input looks like the following:
+          "//src/path1:target1 //src/path2:target2"
+        required: true
+        type: string
+      flags:
+        description: "Flags for the bazel build command"
+        required: false
+        type: string
+        default: ""
+      needs-runfiles:
+        description: >
+          A boolean input that if true will package the artifact's runfiles along with the artifact.
+
+          If this flag is not set, then the artifact itself will be uploaded without any corresponding runfiles
+          that Bazel generates for it during the build process.
+        required: false
+        type: boolean
+        default: false
+      includes-java:
+        description: >
+          A boolean input that if true will add the build flag "--java_runtime_version=myjdk".
+
+          If this flag is not set, then the build process will not be able to generate a JAR that can run
+          standalone through adding the flag --singlejar on the run script for the JAR that is also generated.
+        required: false
+        type: boolean
+        default: false
+      user-java-distribution:
+        description: The Java distribution to setup to build artifacts with.
+        default: "oracle"
+        type: string
+        required: false
+      user-java-version:
+        description: >
+          The Java version to setup to build artifacts with.
+
+          Supports major versions 8, 11, 16, 17, and other versions also.
+        default: "17"
+        type: string
+        required: false
+
+    outputs:
+      provenance-download-name:
+        description: >
+          Name of the artifact to download all the attestations.
+
+          When run on a `pull_request` trigger, attestations are not signed and have an ".intoto" extension.
+          When run on other triggers, attestations are signed and have an "intoto.sigstore" extension.
+        value: ${{ jobs.slsa-run.outputs.attestations-download-name }}
+
+jobs:
+  slsa-setup:
+    permissions:
+      id-token: write # For token creation.
+    outputs:
+      slsa-token: ${{ steps.generate.outputs.slsa-token }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate the token
+        id: generate
+        uses: slsa-framework/slsa-github-generator/actions/delegator/setup-generic@v1.9.0
+        with:
+          slsa-workflow-recipient: "delegator_lowperms-generic_slsa3.yml"
+          slsa-rekor-log-public: ${{ inputs.rekor-log-public }}
+          slsa-runner-label: "ubuntu-latest"
+          slsa-build-action-path: "./internal/builders/bazel"
+          slsa-workflow-inputs: ${{ toJson(inputs) }}
+
+  slsa-run:
+    needs: [slsa-setup]
+    permissions:
+      id-token: write # For signing.
+      contents: read # For asset uploads.
+      actions: read   # For the entrypoint.
+    uses: slsa-framework/slsa-github-generator/.github/workflows/delegator_lowperms-generic_slsa3.yml@v1.9.0
+    with:
+      slsa-token: ${{ needs.slsa-setup.outputs.slsa-token }}
